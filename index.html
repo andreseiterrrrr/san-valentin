@@ -17,7 +17,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
             position: relative;
         }
         /* Partículas flotantes (corazones) para efecto aesthetic */
@@ -142,6 +141,7 @@
             justify-content: center;
             gap: 15px;
             margin: 20px 0;
+            overflow-x: auto; /* Permite scroll horizontal si no caben */
         }
         img {
             max-width: 250px;
@@ -150,6 +150,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            flex-shrink: 0; /* Evita que se encojan */
         }
         img:hover {
             transform: scale(1.05);
@@ -256,6 +257,7 @@
             }
             .gallery {
                 gap: 10px;
+                justify-content: flex-start; /* Permite scroll horizontal */
             }
             img {
                 max-width: 200px;
@@ -291,7 +293,7 @@
     <div class="container">
         <div id="passwordForm">
             <h1>La Caja Fuerte de Mi Corazón <span class="heart">🔒</span></h1>
-            <p>Para desbloquear esta cartita, ingresa los 4 dígitos mágicos en la caja fuerte:</p>
+            <p>Para desbloquear mi amor eterno, ingresa los 4 dígitos mágicos en la caja fuerte:</p>
             <div class="safe">
                 <div class="display" id="display">____</div>
                 <div class="keypad">
@@ -309,7 +311,7 @@
                     <button class="key" onclick="checkPassword()">Abrir</button>
                 </div>
             </div>
-            <p id="error" style="display: none;">¡Oh no! Esa no es la clave de mi corazón. Inténtalo de nuevo, mi niña. 💔</p>
+            <p id="error" style="display: none;">¡Oh no! Esa no es la clave de mi corazón. Inténtalo de nuevo, mi amor. 💔</p>
         </div>
 
         <div id="content" class="hidden">
@@ -327,14 +329,14 @@
             
             <div class="gallery">
                 <!-- Reemplaza estas URLs con tus propias imágenes. Por ejemplo, sube fotos a un sitio como Imgur y pega los enlaces aquí. -->
-                <img src="https://tse1.mm.bing.net/th/id/OIP.MRVQ8UGSgRPmz7NLy1l0KgHaHa?pid=Api&P=0&h=180" onclick="showReason(1)">
-                <img src="https://tse4.mm.bing.net/th/id/OIP.oovaEy_6wb1jdoTK8kL1xAAAAA?pid=Api&P=0&h=180" onclick="showReason(2)">
-                <img src="https://tse4.mm.bing.net/th/id/OIP.-6iDnDFCqxteUyLFE4-m9wHaHV?pid=Api&P=0&h=180" onclick="showReason(3)">
+                <img src="https://via.placeholder.com/250x200?text=Imagen+1:+Nuestra+Primera+Cita" alt="Nuestra primera cita" onclick="showReason(1)">
+                <img src="https://via.placeholder.com/250x200?text=Imagen+2:+Un+Momento+Especial" alt="Un momento especial" onclick="showReason(2)">
+                <img src="https://via.placeholder.com/250x200?text=Imagen+3:+Sonriendo+Juntos" alt="Sonriendo juntos" onclick="showReason(3)">
             </div>
             
             <p class="click-hint">Haz click en las imágenes para descubrir más razones por las que te amo. 💕</p>
             
-            <p>Si estás leyendo esto, significa que eres la persona más importante en mi vida. ¡Feliz día, mi niña! ❤️</p>
+            <p>Si estás leyendo esto, significa que eres la persona más importante en mi vida. ¡Feliz día, mi amor! ❤️</p>
         </div>
     </div>
 
@@ -397,14 +399,4 @@
             }
         }
 
-        function showReason(num) {
-            document.getElementById('modal' + num).style.display = 'flex';
-        }
-
-        function closeModal(num) {
-            document.getElementById('modal' + num).style.display = 'none';
-        }
-    </script>
-</body>
-
-</html>
+        function show
