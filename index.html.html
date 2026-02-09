@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Amor por Ti</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffe6f2, #e6f7ff);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        /* Partículas flotantes (corazones) para efecto aesthetic */
+        .particle {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 105, 180, 0.3);
+            animation: float 6s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+        .container {
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .safe {
+            border: 10px solid #666;
+            border-radius: 50px;
+            background: linear-gradient(145deg, #ddd, #bbb);
+            padding: 40px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .safe::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #ff69b4;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff69b4;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 10px #ff69b4; }
+            to { box-shadow: 0 0 20px #ff69b4, 0 0 30px #ff69b4; }
+        }
+        .display {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ff69b4;
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        .key {
+            padding: 15px;
+            background: #f0f0f0;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .key:hover {
+            background: #ff69b4;
+            color: white;
+            transform: scale(1.1);
+        }
+        .clear {
+            grid-column: span 3;
+            background: #ff4d4d;
+            color: white;
+        }
+        .clear:hover {
+            background: #cc0000;
+        }
+        .hidden {
+            display: none;
+        }
+        .open {
+            animation: openSafe 1s ease-out forwards;
+        }
+        @keyframes openSafe {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+        }
+        h1 {
+            color: #ff69b4;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+        }
+        ul {
+            text-align: left;
+            max-width: 600px;
+            margin: 20px auto;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+            color: #777;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        img {
+            max-width: 250px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        /* Modal para razones */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .modal-content h2 {
+            color: #ff69b4;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .modal-content p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ff69b4;
+        }
+        .close:hover {
+            color: #cc0055;
+        }
+        .click-hint {
+            font-style: italic;
+            color: #ff69b4;
+            font-size: 16px;
+            margin: 10px 0 20px 0;
+        }
+        #error {
+            color: #ff4d4d;
+            font-weight: 400;
+            margin-top: 10px;
+            animation: shake 0.5s ease;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .heart {
+            font-size: 24px;
+            color: #ff69b4;
+        }
+        /* Media queries para móviles */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+                max-width: 100%;
+            }
+            .safe {
+                padding: 20px;
+            }
+            .display {
+                font-size: 20px;
+                letter-spacing: 3px;
+            }
+            .keypad {
+                max-width: 180px;
+                gap: 8px;
+            }
+            .key {
+                padding: 12px;
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            p {
+                font-size: 16px;
+            }
+            .gallery {
+                gap: 10px;
+            }
+            img {
+                max-width: 200px;
+            }
+            .modal-content {
+                padding: 20px;
+                max-width: 90%;
+            }
+            .modal-content h2 {
+                font-size: 20px;
+            }
+            .modal-content p {
+                font-size: 16px;
+            }
+            .click-hint {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Partículas flotantes -->
+    <div class="particle" style="left: 10%; animation-delay: 0s;">💖</div>
+    <div class="particle" style="left: 20%; animation-delay: 1s;">❤️</div>
+    <div class="particle" style="left: 30%; animation-delay: 2s;">💕</div>
+    <div class="particle" style="left: 40%; animation-delay: 3s;">💖</div>
+    <div class="particle" style="left: 50%; animation-delay: 4s;">❤️</div>
+    <div class="particle" style="left: 60%; animation-delay: 5s;">💕</div>
+    <div class="particle" style="left: 70%; animation-delay: 6s;">💖</div>
+    <div class="particle" style="left: 80%; animation-delay: 7s;">❤️</div>
+    <div class="particle" style="left: 90%; animation-delay: 8s;">💕</div>
+
+    <div class="container">
+        <div id="passwordForm">
+            <h1>La Caja Fuerte de Mi Corazón <span class="heart">🔒</span></h1>
+            <p>Para desbloquear esta cartita, ingresa los 4 dígitos mágicos en la caja fuerte:</p>
+            <div class="safe">
+                <div class="display" id="display">____</div>
+                <div class="keypad">
+                    <button class="key" onclick="addDigit(1)">1</button>
+                    <button class="key" onclick="addDigit(2)">2</button>
+                    <button class="key" onclick="addDigit(3)">3</button>
+                    <button class="key" onclick="addDigit(4)">4</button>
+                    <button class="key" onclick="addDigit(5)">5</button>
+                    <button class="key" onclick="addDigit(6)">6</button>
+                    <button class="key" onclick="addDigit(7)">7</button>
+                    <button class="key" onclick="addDigit(8)">8</button>
+                    <button class="key" onclick="addDigit(9)">9</button>
+                    <button class="key clear" onclick="clearDigits()">Borrar</button>
+                    <button class="key" onclick="addDigit(0)">0</button>
+                    <button class="key" onclick="checkPassword()">Abrir</button>
+                </div>
+            </div>
+            <p id="error" style="display: none;">¡Oh no! Esa no es la clave de mi corazón. Inténtalo de nuevo, mi niña. 💔</p>
+        </div>
+
+        <div id="content" class="hidden">
+            <h1>¡Te Amo Más Que a Nada en el Mundo! <span class="heart">💖</span></h1>
+            <p>Mi amor, desde el momento en que te conocí, mi vida cambió para siempre. Eres mi sol, mi luna y todas mis estrellas. Cada día a tu lado es una aventura llena de felicidad, risas y amor infinito. No hay palabras suficientes para expresar lo mucho que te adoro, pero aquí va un poco de lo que siento por ti:</p>
+            
+            <ul>
+                <li>Eres la persona más hermosa, inteligente y amable que he conocido.</li>
+                <li>Tu sonrisa ilumina mi día, incluso en los momentos más oscuros.</li>
+                <li>Contigo, el futuro parece brillante y lleno de posibilidades.</li>
+                <li>Te amo con todo mi corazón, y eso nunca cambiará.</li>
+            </ul>
+            
+            <p>¡Mira estas fotos que me recuerdan lo mucho que te amo!</p>
+            
+            <div class="gallery">
+                <!-- Reemplaza estas URLs con tus propias imágenes. Por ejemplo, sube fotos a un sitio como Imgur y pega los enlaces aquí. -->
+                <img src="https://tse1.mm.bing.net/th/id/OIP.MRVQ8UGSgRPmz7NLy1l0KgHaHa?pid=Api&P=0&h=180" onclick="showReason(1)">
+                <img src="https://tse4.mm.bing.net/th/id/OIP.oovaEy_6wb1jdoTK8kL1xAAAAA?pid=Api&P=0&h=180" onclick="showReason(2)">
+                <img src="https://tse4.mm.bing.net/th/id/OIP.-6iDnDFCqxteUyLFE4-m9wHaHV?pid=Api&P=0&h=180" onclick="showReason(3)">
+            </div>
+            
+            <p class="click-hint">Haz click en las imágenes para descubrir más razones por las que te amo. 💕</p>
+            
+            <p>Si estás leyendo esto, significa que eres la persona más importante en mi vida. ¡Feliz día, mi niña! ❤️</p>
+        </div>
+    </div>
+
+    <!-- Modales para razones -->
+    <div id="modal1" class="modal" onclick="closeModal(1)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal(1)">&times;</span>
+            <h2>Razón por la que te amo <span class="heart">💕</span></h2>
+            <p>Tu sonrisa es mi luz en los días grises. Cada vez que sonríes, mi corazón se acelera y el mundo parece un lugar mejor. Amo cómo tu belleza exterior refleja la pureza de tu alma, y cómo me haces sentir vivo con solo una mirada. Eres mi razón para sonreír todos los días. ❤️</p>
+        </div>
+    </div>
+    <div id="modal2" class="modal" onclick="closeModal(2)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal(2)">&times;</span>
+            <h2>Razón por la que te amo <span class="heart">💖</span></h2>
+            <p>Tu personalidad es única y maravillosa. Amo tu sentido del humor, tu amabilidad infinita y cómo siempre sabes cómo hacerme reír incluso en los momentos difíciles. Nuestra conexión es especial, como si fuéramos dos piezas de un puzzle perfecto. Contigo, cada día es una nueva aventura llena de amor y complicidad. 💕</p>
+        </div>
+    </div>
+    <div id="modal3" class="modal" onclick="closeModal(3)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close" onclick="closeModal(3)">&times;</span>
+            <h2>Razón por la que te amo <span class="heart">❤️</span></h2>
+            <p>Mi amor por ti es eterno y profundo. Amo cómo sueñas conmigo y cómo juntos construimos un futuro brillante. Eres mi todo, mi confidente y mi mejor amiga. Prometo amarte más cada día, porque sin ti, mi vida no tendría sentido. Nuestro amor es para siempre, como las estrellas que brillan en el cielo nocturno. 💖</p>
+        </div>
+    </div>
+
+    <script>
+        let enteredPassword = '';
+
+        function addDigit(digit) {
+            if (enteredPassword.length < 4) {
+                enteredPassword += digit;
+                updateDisplay();
+            }
+        }
+
+        function clearDigits() {
+            enteredPassword = '';
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const display = document.getElementById('display');
+            display.textContent = '*'.repeat(enteredPassword.length) + '_'.repeat(4 - enteredPassword.length);
+        }
+
+        function checkPassword() {
+            const error = document.getElementById('error');
+            if (enteredPassword === '1512') {
+                document.getElementById('passwordForm').classList.add('open');
+                setTimeout(() => {
+                    document.getElementById('passwordForm').style.display = 'none';
+                    document.getElementById('content').classList.remove('hidden');
+                }, 1000);
+            } else {
+                error.style.display = 'block';
+                setTimeout(() => error.style.display = 'none', 3000);
+                enteredPassword = '';
+                updateDisplay();
+            }
+        }
+
+        function showReason(num) {
+            document.getElementById('modal' + num).style.display = 'flex';
+        }
+
+        function closeModal(num) {
+            document.getElementById('modal' + num).style.display = 'none';
+        }
+    </script>
+</body>
+</html>
